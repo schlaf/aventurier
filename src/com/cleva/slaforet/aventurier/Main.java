@@ -1,12 +1,10 @@
 package com.cleva.slaforet.aventurier;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -32,7 +30,7 @@ public class Main {
                 getResourceAsStream("logging.properties");
         try {
             LogManager.getLogManager().readConfiguration(stream);
-            LOGGER = Logger.getLogger("aventurer");
+            LOGGER = Logger.getLogger("aventurier");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,7 +69,9 @@ public class Main {
             LOGGER.info("== try to move to " + c);
             p = map.moveTo(p, Direction.valueOf(String.valueOf(c)));
             LOGGER.info(p.toString());
-            LOGGER.finer("\n" + map.displayMap(p));
+            if (LOGGER.isLoggable(Level.FINER)) {
+                LOGGER.finer("\n" + map.displayMap(p));
+            }
         }
         LOGGER.info("================================");
         LOGGER.info("Position finale : ");
@@ -86,9 +86,8 @@ public class Main {
         this.map = new Map(content);
     }
 
-    private void initFromInput(String input) throws Exception {
+    private void initFromInput(String input) {
         LOGGER.info("initialisation des instructions de l'aventurier");
-        ArrayList<char[]> lines = new ArrayList<>();
         Scanner lineScanner = new Scanner(new StringReader(input));
         lineScanner.useDelimiter("\n");
 
@@ -108,7 +107,7 @@ public class Main {
         String secondLine = lineScanner.next();
         boolean invalidInputs = secondLine.chars()
                 .mapToObj(Character::toString)
-                .anyMatch(value -> (! Direction.isValidDirection(new String(value))));
+                .anyMatch(value -> (! Direction.isValidDirection(value)));
 
         if (invalidInputs) {
             LOGGER.severe("invalid instruction line : all characters must be NSEO only");
