@@ -22,6 +22,9 @@ public class Main {
      * la carte (initialisée en durà
      */
     private Map map;
+
+    private static Position finalPosition;
+
     private static Logger LOGGER = null;
 
     static {
@@ -44,7 +47,7 @@ public class Main {
 
         Main program = new Main();
         program.init(args);
-        program.run();
+        finalPosition = program.run();
     }
 
     private void init(String[] args) {
@@ -60,7 +63,7 @@ public class Main {
 
     }
 
-    private void run() {
+    private Position run() {
         Position p = new Position(initialPosition);
         LOGGER.info(p.toString());
         char[] instructionsArray = instructions.toCharArray();
@@ -74,6 +77,7 @@ public class Main {
         LOGGER.info("Position finale : ");
         LOGGER.info(p.toString());
         LOGGER.info("================================");
+        return p;
     }
 
     private void initMap() throws Exception, AssertionError {
@@ -114,5 +118,9 @@ public class Main {
         this.instructions = secondLine;
         LOGGER.info("running with init position = " +  initialPosition.toString());
         LOGGER.info("running with instructions = " +  instructions);
+    }
+
+    public static Position getFinalPosition() {
+        return finalPosition;
     }
 }

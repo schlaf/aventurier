@@ -1,5 +1,7 @@
 package com.cleva.slaforet.aventurier;
 
+import java.util.Objects;
+
 /**
  * position d'un aventurier sur la carte
  */
@@ -34,5 +36,17 @@ public class Position {
 
     public String toString() {
         return "Position[x=" + x + ", y=" + y + "]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return x == position.x && y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
