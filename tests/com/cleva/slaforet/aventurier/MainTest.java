@@ -2,6 +2,8 @@ package com.cleva.slaforet.aventurier;
 
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.NoSuchFileException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
@@ -22,4 +24,14 @@ class MainTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void mainFail() {
+        assertThrowsExactly(RuntimeException.class, () -> Main.main(new String[]{"testPifPafPouf.txt"}));
+    }
+
+    @Test
+    void mainFail2() {
+        Main.main(new String[]{});
+        assertNull(Main.getFinalPosition());
+    }
 }
